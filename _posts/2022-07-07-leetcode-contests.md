@@ -6,7 +6,6 @@ categories: coding
 tags: [coding]
 ---
 
-[TOC]
 
 # Weekly Contest 300
 
