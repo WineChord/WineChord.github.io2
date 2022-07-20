@@ -6,6 +6,12 @@ categories: coding
 tags: [coding]
 ---
 
+- [Weekly Contest 300](#weekly-contest-300)
+  - [Decode the Message](#decode-the-message)
+  - [Spiral Matrix IV](#spiral-matrix-iv)
+  - [Number of People Aware of a Secret](#number-of-people-aware-of-a-secret)
+  - [Number of Increasing Paths in a Grid](#number-of-increasing-paths-in-a-grid)
+
 
 # Weekly Contest 300
 
