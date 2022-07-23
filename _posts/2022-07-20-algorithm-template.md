@@ -10,6 +10,8 @@ tags: [coding]
   - [Quick Sort](#quick-sort)
     - [Template](#template)
     - [Top-K: Quick Select](#top-k-quick-select)
+  - [Merge Sort](#merge-sort)
+    - [Template](#template-1)
 
 ## Basic Algorithms
 
@@ -66,6 +68,37 @@ int main(){
     int n,k;scanf("%d%d",&n,&k);
     for(int i=0;i<n;i++)scanf("%d",&a[i]);
     printf("%d\n",qs(0,n-1,k));
+}
+```
+
+### Merge Sort
+
+#### Template
+
+```c++
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using namespace std;
+int a[MAXN],tmp[MAXN];
+void ms(int l,int r){
+    if(l>=r)return;
+    int m=l+r>>1;
+    ms(l,m);ms(m+1,r);
+    int k=0,i=l,j=m+1;
+    while(i<=m&&j<=r)
+        if(a[i]<=a[j])tmp[k++]=a[i++];
+        else tmp[k++]=a[j++];
+    while(i<=m)tmp[k++]=a[i++];
+    while(j<=r)tmp[k++]=a[j++];
+    for(int i=l,j=0;i<=r;i++,j++)a[i]=tmp[j];
+}
+int main(){
+    int n;scanf("%d",&n);
+    for(int i=0;i<n;i++)scanf("%d",&a[i]);
+    ms(0,n-1);
+    for(int i=0;i<n;i++)printf("%d ",a[i]);
+    return 0;
 }
 ```
 
