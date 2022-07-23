@@ -12,6 +12,7 @@ tags: [coding]
     - [Top-K: Quick Select](#top-k-quick-select)
   - [Merge Sort](#merge-sort)
     - [Template](#template-1)
+    - [Count Inversions](#count-inversions)
 
 ## Basic Algorithms
 
@@ -98,6 +99,38 @@ int main(){
     for(int i=0;i<n;i++)scanf("%d",&a[i]);
     ms(0,n-1);
     for(int i=0;i<n;i++)printf("%d ",a[i]);
+    return 0;
+}
+```
+
+#### Count Inversions
+
+```c++
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using ll=long long;
+int a[MAXN],tmp[MAXN];
+ll ms(int l,int r){
+    if(l>=r)return 0;
+    ll res=0;int m=l+r>>1;
+    res+=ms(l,m)+ms(m+1,r);
+    int i=l,j=m+1,k=0;
+    while(i<=m&&j<=r)
+        if(a[i]<=a[j])tmp[k++]=a[i++];
+        else{
+            tmp[k++]=a[j++];
+            res+=m-i+1;
+        }
+    while(i<=m)tmp[k++]=a[i++];
+    while(j<=r)tmp[k++]=a[j++];
+    for(int i=l,j=0;i<=r;i++,j++)a[i]=tmp[j];
+    return res;
+}
+int main(){
+    int n;scanf("%d",&n);
+    for(int i=0;i<n;i++)scanf("%d",&a[i]);
+    printf("%lld\n",ms(0,n-1));
     return 0;
 }
 ```
