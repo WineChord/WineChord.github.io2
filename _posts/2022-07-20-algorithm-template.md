@@ -15,6 +15,7 @@ tags: [coding]
     - [Count Inversions](#count-inversions)
   - [Binary Search](#binary-search)
     - [Integer](#integer)
+    - [Floating Point](#floating-point)
 
 ## Basic Algorithms
 
@@ -174,5 +175,27 @@ int main(){
     return 0;
 }
 ```
+
+#### Floating Point
+
+```c++
+#include<iostream>
+#include<cstdio>
+using namespace std;
+int main(){
+    // Find x s.t. x*x*x = n.
+    double n;scanf("%lf",&n);
+    double l=-10000,r=10000;
+    while(r-l>1e-8){
+        double m=(l+r)/2;
+        if(m*m*m>=n)r=m;
+        else l=m;
+    }
+    printf("%.6lf\n",r);
+    return 0;
+}
+```
+
+
 
 <!-- ## Basic Data Structures -->
