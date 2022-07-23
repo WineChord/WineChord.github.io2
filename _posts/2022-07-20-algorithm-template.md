@@ -13,6 +13,8 @@ tags: [coding]
   - [Merge Sort](#merge-sort)
     - [Template](#template-1)
     - [Count Inversions](#count-inversions)
+  - [Binary Search](#binary-search)
+    - [Integer](#integer)
 
 ## Basic Algorithms
 
@@ -131,6 +133,44 @@ int main(){
     int n;scanf("%d",&n);
     for(int i=0;i<n;i++)scanf("%d",&a[i]);
     printf("%lld\n",ms(0,n-1));
+    return 0;
+}
+```
+
+### Binary Search
+
+#### Integer
+
+```c++
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using namespace std;
+int a[MAXN];
+int main(){
+    int n,q;scanf("%d%d",&n,&q);
+    for(int i=0;i<n;i++)scanf("%d",&a[i]);
+    while(q--){
+        int k;scanf("%d",&k);
+        int l=0,r=n-1;
+        while(l<r){
+            int m=l+r>>1; // Type 1.
+            if(a[m]>=k)r=m;
+            else l=m+1;
+        }
+        if(a[r]!=k){
+            printf("-1 -1\n");
+            continue;
+        }
+        printf("%d ",r);
+        l=0,r=n-1;
+        while(l<r){
+            int m=l+r+1>>1; // Type 2.
+            if(a[m]<=k)l=m;
+            else r=m-1;
+        }
+        printf("%d\n",r);
+    }
     return 0;
 }
 ```
