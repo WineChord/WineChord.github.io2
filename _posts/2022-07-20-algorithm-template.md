@@ -16,6 +16,8 @@ tags: [coding]
   - [Binary Search](#binary-search)
     - [Integer](#integer)
     - [Floating Point](#floating-point)
+  - [High Precision](#high-precision)
+    - [Add](#add)
 
 ## Basic Algorithms
 
@@ -196,6 +198,38 @@ int main(){
 }
 ```
 
+### High Precision
 
+#### Add
+
+```c++
+#include<iostream>
+#include<cstdio>
+#include<vector>
+using namespace std;
+vector<int> add(vector<int>& a,vector<int>& b) {
+    vector<int> c;
+    if(a.size()<b.size())return add(b,a);
+    int up=0;
+    for(int i=0;i<a.size();i++){
+        up+=a[i];
+        if(i<b.size())up+=b[i];
+        c.push_back(up%10);
+        up/=10;
+    }
+    if(up)c.push_back(1);
+    return c;
+}
+int main(){
+    string a,b;
+    cin>>a>>b;
+    vector<int> A,B;
+    for(int i=a.length()-1;i>=0;i--)A.push_back(a[i]-'0');
+    for(int i=b.length()-1;i>=0;i--)B.push_back(b[i]-'0');
+    auto C=add(A,B);
+    for(int i=C.size()-1;i>=0;i--)printf("%d",C[i]);
+    return 0;
+}
+```
 
 <!-- ## Basic Data Structures -->
