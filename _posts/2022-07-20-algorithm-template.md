@@ -19,6 +19,7 @@ tags: [coding]
   - [High Precision](#high-precision)
     - [Add](#add)
     - [Sub](#sub)
+    - [Mul](#mul)
 
 ## Basic Algorithms
 
@@ -273,6 +274,34 @@ int main(){
         for(int i=C.size()-1;i>=0;i--)printf("%d",C[i]);        
     }
     return 0;
+}
+```
+
+#### Mul
+
+```c++
+#include<iostream>
+#include<cstdio>
+#include<vector>
+using namespace std;
+vector<int> mul(vector<int>& A,int b){
+    vector<int> C;
+    int up=0;
+    for(int i=0;i<A.size()||up;i++){
+        if(i<A.size())up+=A[i]*b;
+        C.push_back(up%10);
+        up/=10;
+    }
+    while(C.size()>1&&C.back()==0)C.pop_back();
+    return C;
+}
+int main(){
+    string a;int b;
+    cin>>a>>b;
+    vector<int> A;
+    for(int i=a.length()-1;i>=0;i--)A.push_back(a[i]-'0');
+    auto C=mul(A,b);
+    for(int i=C.size()-1;i>=0;i--)printf("%d",C[i]);
 }
 ```
 
