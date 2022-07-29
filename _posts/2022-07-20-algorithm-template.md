@@ -21,6 +21,9 @@ tags: [coding]
     - [Sub](#sub)
     - [Mul](#mul)
     - [Div](#div)
+  - [Prefix Sum and Difference](#prefix-sum-and-difference)
+    - [One Dimensional Prefix Sum](#one-dimensional-prefix-sum)
+    - [Two Dimensional Prefix Sum](#two-dimensional-prefix-sum)
 
 ## Basic Algorithms
 
@@ -334,6 +337,55 @@ int main(){
     auto C=div(A,b,r);
     for(int i=C.size()-1;i>=0;i--)printf("%d",C[i]);
     printf("\n%d",r);
+}
+```
+
+### Prefix Sum and Difference
+
+#### One Dimensional Prefix Sum
+
+```c++
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using namespace std;
+int a[MAXN];
+int main(){
+    int n,m;
+    scanf("%d%d",&n,&m);
+    for(int i=1;i<=n;i++){
+        scanf("%d",&a[i]);
+        a[i]+=a[i-1];
+    }
+    for(int i=0;i<m;i++){
+        int l,r;scanf("%d%d",&l,&r);
+        printf("%d\n",a[r]-a[l-1]);
+    }
+    return 0;
+}
+```
+
+#### Two Dimensional Prefix Sum
+
+```c++
+#include<iostream>
+#include<cstdio>
+#define MAXN 1010
+int a[MAXN][MAXN];
+using namespace std;
+int main(){
+    int n,m,q;scanf("%d%d%d",&n,&m,&q);
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            scanf("%d",&a[i][j]);
+            a[i][j]+=a[i-1][j]+a[i][j-1]-a[i-1][j-1];
+        }
+    }
+    while(q--){
+        int x1,y1,x2,y2;scanf("%d%d%d%d",&x1,&y1,&x2,&y2);
+        printf("%d\n",a[x2][y2]-a[x2][y1-1]-a[x1-1][y2]+a[x1-1][y1-1]);
+    }
+    return 0;
 }
 ```
 
