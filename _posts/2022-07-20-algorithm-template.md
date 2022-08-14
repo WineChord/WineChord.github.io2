@@ -11,7 +11,7 @@ tags: [coding]
     - [Template](#template)
     - [Top-K: Quick Select](#top-k-quick-select)
   - [Merge Sort](#merge-sort)
-    - [Template](#template-1)
+    - [Merge Sort Template](#merge-sort-template)
     - [Count Inversions](#count-inversions)
   - [Binary Search](#binary-search)
     - [Integer](#integer)
@@ -24,6 +24,12 @@ tags: [coding]
   - [Prefix Sum and Difference](#prefix-sum-and-difference)
     - [One Dimensional Prefix Sum](#one-dimensional-prefix-sum)
     - [Two Dimensional Prefix Sum](#two-dimensional-prefix-sum)
+    - [One Dimensional Difference](#one-dimensional-difference)
+    - [Two Dimensional Difference](#two-dimensional-difference)
+  - [Two Pointers](#two-pointers)
+    - [Longest Substring Without Repeating Characters](#longest-substring-without-repeating-characters)
+    - [Target Sum](#target-sum)
+    - [Is Subsequence](#is-subsequence)
 
 ## Basic Algorithms
 
@@ -85,7 +91,7 @@ int main(){
 
 ### Merge Sort
 
-#### Template
+#### Merge Sort Template
 
 ```c++
 #include<iostream>
@@ -385,6 +391,142 @@ int main(){
         int x1,y1,x2,y2;scanf("%d%d%d%d",&x1,&y1,&x2,&y2);
         printf("%d\n",a[x2][y2]-a[x2][y1-1]-a[x1-1][y2]+a[x1-1][y1-1]);
     }
+    return 0;
+}
+```
+
+#### One Dimensional Difference
+
+```c++
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using namespace std;
+int a[MAXN];
+int main(){
+    int n,m;scanf("%d%d",&n,&m);
+    for(int i=1;i<=n;i++)scanf("%d",&a[i]);
+    for(int i=n;i>1;i--)a[i]-=a[i-1];
+    while(m--){
+        int l,r,c;scanf("%d%d%d",&l,&r,&c);
+        a[l]+=c;a[r+1]-=c;
+    }
+    for(int i=1;i<=n;i++){
+        a[i]+=a[i-1];
+        printf("%d ",a[i]);
+    }
+    return 0;
+}
+```
+
+#### Two Dimensional Difference
+
+```c++
+#include<iostream>
+#include<cstdio>
+#define MAXN 1010
+using namespace std;
+int a[MAXN][MAXN];
+int b[MAXN][MAXN];
+void insert(int x1,int y1,int x2,int y2,int c){
+    b[x1][y1]+=c;
+    b[x1][y2+1]-=c;
+    b[x2+1][y1]-=c;
+    b[x2+1][y2+1]+=c;
+}
+int main(){
+    int n,m,q;scanf("%d%d%d",&n,&m,&q);
+    for(int i=1;i<=n;i++)
+        for(int j=1;j<=m;j++)
+            scanf("%d",&a[i][j]);
+    for(int i=1;i<=n;i++)
+        for(int j=1;j<=m;j++)
+            insert(i,j,i,j,a[i][j]);
+    while(q--){
+        int x1,y1,x2,y2,c;
+        scanf("%d%d%d%d%d",&x1,&y1,&x2,&y2,&c);
+        insert(x1,y1,x2,y2,c);
+    }
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            b[i][j]+=b[i-1][j]+b[i][j-1]-b[i-1][j-1];
+            printf("%d ",b[i][j]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
+```
+
+### Two Pointers
+
+#### Longest Substring Without Repeating Characters
+
+```c++
+#include<iostream>
+#include<cstdio>
+#include<unordered_map>
+#define MAXN 100010
+using namespace std;
+int a[MAXN];
+int main(){
+    int n;scanf("%d",&n);
+    unordered_map<int,int> m;
+    int res=0;
+    for(int i=1;i<=n;i++)scanf("%d",&a[i]);
+    for(int i=1,j=1;i<=n;i++){
+        if(m.find(a[i])!=m.end())j=max(j,m[a[i]]+1);
+        m[a[i]]=i;
+        res=max(res,i-j+1);
+    }
+    printf("%d\n",res);
+    return 0;
+}
+```
+
+#### Target Sum
+
+```c++
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using namespace std;
+int a[MAXN],b[MAXN];
+int main(){
+    int n,m,x;scanf("%d%d%d",&n,&m,&x);
+    for(int i=0;i<n;i++)scanf("%d",&a[i]);
+    for(int j=0;j<m;j++)scanf("%d",&b[j]);
+    int j=m-1;
+    for(int i=0;i<n;i++){
+        while(j>=0&&a[i]+b[j]>x)j--;
+        if(a[i]+b[j]==x){
+            printf("%d %d\n",i,j);
+            break;
+        }
+    }
+    return 0;
+}
+```
+
+#### Is Subsequence
+
+```c++
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using namespace std;
+int a[MAXN],b[MAXN];
+int main(){
+    int n,m;scanf("%d%d",&n,&m);
+    for(int i=0;i<n;i++)scanf("%d",&a[i]);
+    for(int j=0;j<m;j++)scanf("%d",&b[j]);
+    int i=0,j=0;
+    while(i<n&&j<m){
+        if(a[i]==b[j])i++;
+        j++;
+    }
+    if(i==n)printf("Yes\n");
+    else printf("No\n");
     return 0;
 }
 ```
