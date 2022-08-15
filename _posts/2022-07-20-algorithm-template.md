@@ -32,6 +32,7 @@ tags: [coding]
     - [Is Subsequence](#is-subsequence)
   - [Bit Operation](#bit-operation)
   - [Discretization](#discretization)
+  - [Merge Intervals](#merge-intervals)
 
 ## Basic Algorithms
 
@@ -604,5 +605,36 @@ int main(){
     return 0;
 }
 ```
+
+### Merge Intervals
+
+```c++
+#include<iostream>
+#include<cstdio>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main(){
+    int n;scanf("%d",&n);
+    vector<pair<int,int>> segs;
+    for(int i=0;i<n;i++){
+        int l,r;scanf("%d%d",&l,&r);
+        segs.push_back({l,r});
+    }
+    sort(segs.begin(),segs.end());
+    int st=-2e9,ed=-2e9;
+    vector<pair<int,int>> res;
+    for(auto [l,r]:segs){
+        if(ed<l){
+            if(st!=-2e9)res.push_back({st,ed});
+            st=l;ed=r;
+        }else ed=max(ed,r);
+    }
+    if(st!=-2e9)res.push_back({st,ed});
+    printf("%d\n",res.size());
+    return 0;
+}
+```
+
 
 <!-- ## Basic Data Structures -->
