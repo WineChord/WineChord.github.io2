@@ -30,6 +30,8 @@ tags: [coding]
     - [Longest Substring Without Repeating Characters](#longest-substring-without-repeating-characters)
     - [Target Sum](#target-sum)
     - [Is Subsequence](#is-subsequence)
+  - [Bit Operation](#bit-operation)
+  - [Discretization](#discretization)
 
 ## Basic Algorithms
 
@@ -527,6 +529,78 @@ int main(){
     }
     if(i==n)printf("Yes\n");
     else printf("No\n");
+    return 0;
+}
+```
+
+### Bit Operation
+
+```c++
+#include<iostream>
+#include<cstdio>
+using namespace std;
+int lowbit(int x) {return x&(-x);}
+int main(){
+    int n;scanf("%d",&n);
+    while(n--){
+        int x;scanf("%d",&x);
+        int res=0;
+        while(x){
+            res++;
+            x=x&(x-1);
+        }
+        printf("%d ",res);
+    }
+    return 0;
+}
+```
+
+### Discretization
+
+```c++
+#include<iostream>
+#include<cstdio>
+#include<vector>
+#include<algorithm>
+#define MAXN 500010
+using namespace std;
+int a[MAXN];
+int main(){
+    int n,m;scanf("%d%d",&n,&m);
+    vector<int> alls;
+    vector<pair<int,int>> add;
+    vector<pair<int,int>> query;
+    for(int i=0;i<n;i++){
+        int x,c;scanf("%d%d",&x,&c);
+        alls.push_back(x);
+        add.push_back({x,c});
+    }
+    for(int i=0;i<m;i++){
+        int l,r;scanf("%d%d",&l,&r);
+        alls.push_back(l);
+        alls.push_back(r);
+        query.push_back({l,r});
+    }
+    sort(alls.begin(),alls.end());
+    alls.erase(unique(alls.begin(),alls.end()),alls.end());
+    auto find=[&](int x){
+        int l=0,r=alls.size()-1;
+        while(l<r){
+            int m=(l+r)/2;
+            if(alls[m]>=x)r=m;
+            else l=m+1;
+        }
+        return r+1;
+    };
+    for(auto [x,c]:add){
+        int idx=find(x);
+        a[idx]+=c;
+    }
+    for(int i=1;i<=alls.size();i++)a[i]+=a[i-1];
+    for(auto [l,r]:query){
+        int ll=find(l),rr=find(r);
+        printf("%d\n",a[rr]-a[ll-1]);
+    }
     return 0;
 }
 ```
