@@ -33,6 +33,9 @@ tags: [coding]
   - [Bit Operation](#bit-operation)
   - [Discretization](#discretization)
   - [Merge Intervals](#merge-intervals)
+- [Basic Data Structures](#basic-data-structures)
+  - [Singly Linked List](#singly-linked-list)
+    - [Doubly Linked List](#doubly-linked-list)
 
 ## Basic Algorithms
 
@@ -637,4 +640,107 @@ int main(){
 ```
 
 
-<!-- ## Basic Data Structures -->
+## Basic Data Structures
+
+### Singly Linked List
+
+```c++
+#include<iostream>
+#include<cstdio>
+#include<string>
+#define MAXN 100100
+using namespace std;
+int e[MAXN],ne[MAXN],head,idx;
+void init(){
+    head=-1;idx=0;
+}
+void add_to_head(int x){
+    e[idx]=x;
+    ne[idx]=head;
+    head=idx;
+    idx++;
+}
+void add(int k,int x){
+    e[idx]=x;
+    ne[idx]=ne[k];
+    ne[k]=idx;
+    idx++;
+}
+void remove(int k){
+    ne[k]=ne[ne[k]];
+}
+int main(){
+    int m;scanf("%d",&m);
+    init();
+    while(m--){
+        char c; scanf(" %c ",&c);
+        if(c=='H'){
+            int x;scanf("%d",&x);
+            add_to_head(x);
+        }else if(c=='D'){
+            int k;scanf("%d",&k);
+            if(k==0)head=ne[head];
+            else remove(k-1);
+        }else{
+            int k,x;scanf("%d%d",&k,&x);
+            add(k-1,x);
+        }
+    }
+    int k=head;
+    while(k!=-1){
+        printf("%d ",e[k]);
+        k=ne[k];
+    }
+    return 0;
+}
+```
+
+#### Doubly Linked List
+
+```c++
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using namespace std;
+int e[MAXN],l[MAXN],r[MAXN],idx;
+void init(){
+    l[1]=0;r[0]=1;idx=2;
+}
+void add(int a,int x){
+    e[idx]=x;
+    l[idx]=a;r[idx]=r[a];
+    l[r[a]]=idx;r[a]=idx++;
+}
+void remove(int a){
+    r[l[a]]=r[a];
+    l[r[a]]=l[a];
+}
+int main(){
+    int m;scanf("%d",&m);
+    init();
+    while(m--){
+        char c;scanf(" %c ",&c);
+        if(c=='L'){
+            int x;scanf("%d",&x);
+            add(0,x);
+        }else if(c=='R'){
+            int x;scanf("%d",&x);
+            add(l[1],x);
+        }else if(c=='D'){
+            int k;scanf("%d",&k);
+            remove(k+1);
+        }else if(c=='I'){
+            scanf(" %c ",&c);
+            if(c=='L'){
+                int k,x;scanf("%d%d",&k,&x);
+                add(l[k+1],x);
+            }else if(c=='R'){
+                int k,x;scanf("%d%d",&k,&x);
+                add(k+1,x);
+            }
+        }
+    }
+    for(int i=r[0];i!=1;i=r[i])printf("%d ",e[i]);
+    return 0;
+}
+```
