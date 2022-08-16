@@ -35,7 +35,9 @@ tags: [coding]
   - [Merge Intervals](#merge-intervals)
 - [Basic Data Structures](#basic-data-structures)
   - [Singly Linked List](#singly-linked-list)
-    - [Doubly Linked List](#doubly-linked-list)
+  - [Doubly Linked List](#doubly-linked-list)
+  - [Stack](#stack)
+    - [Evaluate Equations](#evaluate-equations)
 
 ## Basic Algorithms
 
@@ -695,7 +697,7 @@ int main(){
 }
 ```
 
-#### Doubly Linked List
+### Doubly Linked List
 
 ```c++
 #include<iostream>
@@ -741,6 +743,81 @@ int main(){
         }
     }
     for(int i=r[0];i!=1;i=r[i])printf("%d ",e[i]);
+    return 0;
+}
+```
+
+### Stack
+
+```c++
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using namespace std;
+int stk[MAXN],tt;
+int main(){
+    int m;scanf("%d",&m);
+    while(m--){
+        string s;cin>>s;
+        if(s=="push"){
+            int x;scanf("%d",&x);
+            stk[++tt]=x;
+        }else if(s=="pop"){
+            tt--;
+        }else if(s=="query"){
+            printf("%d\n",stk[tt]);
+        }else if(s=="empty"){
+            if(tt==0)printf("YES\n");
+            else printf("NO\n");
+        }
+    }
+    return 0;
+}
+```
+
+#### Evaluate Equations
+
+```c++
+#include<iostream>
+#include<cstdio>
+#include<stack>
+#include<unordered_map>
+using namespace std;
+stack<int> num;
+stack<char> op;
+void eval(){
+    int b=num.top();num.pop();
+    int a=num.top();num.pop();
+    char c=op.top();op.pop();
+    int x;
+    if(c=='+')x=a+b;
+    if(c=='-')x=a-b;
+    if(c=='*')x=a*b;
+    if(c=='/')x=a/b;
+    num.push(x);
+}
+int main(){
+    unordered_map<char,int> pr{{'+',1},{'-',1},{'*',2},{'/',2}};
+    string s;cin>>s;
+    for(int i=0;i<s.length();i++){
+        char c=s[i];
+        if(isdigit(c)){
+            int x=0,j=i;
+            while(j<s.length()&&isdigit(s[j]))
+                x=x*10+s[j++]-'0';
+            i=j-1;
+            num.push(x);
+        }else if(c=='(')op.push(c);
+        else if(c==')'){
+            while(op.top()!='(')eval();
+            op.pop();
+        }else{
+            while(op.size()&&pr[op.top()]>=pr[c])eval();
+            op.push(c);
+        }
+    }
+    while(op.size())eval();
+    cout<<num.top()<<endl;
     return 0;
 }
 ```
