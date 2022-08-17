@@ -857,5 +857,20 @@ int main(){
 ### Monotonic Stack
 
 ```cpp
-
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using namespace std;
+int stk[MAXN],tt=0;
+int main(){
+    int n;cin>>n;
+    for(int i=0;i<n;i++){
+        int x;cin>>x;
+        while(tt&&stk[tt]>=x)tt--;
+        if(tt)printf("%d ",stk[tt]);
+        else printf("-1 ");
+        stk[++tt]=x;
+    }
+    return 0;
+}
 ```
