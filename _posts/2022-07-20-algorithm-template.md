@@ -642,7 +642,6 @@ int main(){
 }
 ```
 
-
 ## Basic Data Structures
 
 ### Singly Linked List
@@ -750,7 +749,7 @@ int main(){
 
 ### Stack
 
-```c++
+```cpp
 #include<iostream>
 #include<cstdio>
 #define MAXN 100010
@@ -851,4 +850,3 @@ int main(){
     return 0;
 }
 ```
-
