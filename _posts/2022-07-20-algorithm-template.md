@@ -789,8 +789,6 @@ stack<char> op;
 void eval(){
     int b=num.top();num.pop();
     int a=num.top();num.pop();
-    // char c=op.top();op.pop();
-    int x;
     if(c=='+')x=a+b;
     if(c=='-')x=a-b;
     if(c=='*')x=a*b;
