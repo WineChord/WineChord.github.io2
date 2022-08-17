@@ -38,6 +38,7 @@ tags: [coding]
   - [Doubly Linked List](#doubly-linked-list)
   - [Stack](#stack)
     - [Evaluate Equations](#evaluate-equations)
+  - [Queue](#queue)
 
 ## Basic Algorithms
 
@@ -821,3 +822,33 @@ int main(){
     return 0;
 }
 ```
+
+### Queue
+
+```c++
+#include<iostream>
+#include<cstdio>
+#include<string>
+#define MAXN 100010
+using namespace std;
+int q[MAXN],hh=0,tt=-1;
+int main(){
+    int m;scanf("%d",&m);
+    while(m--){
+        string s;cin>>s;
+        if(s=="push"){
+            int x;cin>>x;
+            q[++tt]=x;
+        }else if(s=="pop"){
+            hh++;
+        }else if(s=="empty"){
+            if(hh==tt+1)printf("YES\n");
+            else printf("NO\n");
+        }else if(s=="query"){
+            printf("%d\n",q[hh]);
+        }
+    }
+    return 0;
+}
+```
+
