@@ -37,8 +37,6 @@ tags: [coding]
   - [Singly Linked List](#singly-linked-list)
   - [Doubly Linked List](#doubly-linked-list)
   - [Stack](#stack)
-    - [Evaluate Equations](#evaluate-equations)
-  - [Queue](#queue)
   - [Monotonic Stack](#monotonic-stack)
 
 ## Basic Algorithms
@@ -776,7 +774,7 @@ int main(){
 }
 ```
 
-#### Evaluate Equations
+<!-- #### Evaluate Equations
 
 ```c++
 #include<iostream>
@@ -789,6 +787,8 @@ stack<char> op;
 void eval(){
     int b=num.top();num.pop();
     int a=num.top();num.pop();
+    char c=op.top();op.pop();
+    int x;
     if(c=='+')x=a+b;
     if(c=='-')x=a-b;
     if(c=='*')x=a*b;
@@ -819,7 +819,7 @@ int main(){
     cout<<num.top()<<endl;
     return 0;
 }
-```
+``` -->
 
 ### Queue
 
