@@ -40,6 +40,7 @@ tags: [coding]
     - [Evaluate Equations](#evaluate-equations)
   - [Queue](#queue)
   - [Monotonic Stack](#monotonic-stack)
+  - [Monotonic Queue](#monotonic-queue)
 
 ## Basic Algorithms
 
@@ -870,6 +871,36 @@ int main(){
         if(tt)printf("%d ",stk[tt]);
         else printf("-1 ");
         stk[++tt]=x;
+    }
+    return 0;
+}
+```
+
+### Monotonic Queue
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#define MAXN 1000010
+using namespace std;
+int q[MAXN],hh=0,tt=-1;
+int a[MAXN];
+int main(){
+    int n,k;scanf("%d%d",&n,&k);
+    for(int i=0;i<n;i++){
+        scanf("%d",&a[i]);
+        if(q[hh]<i-k+1)hh++;
+        while(hh<=tt&&a[i]<=a[q[tt]])tt--;
+        q[++tt]=i;
+        if(i+1>=k)printf("%d ",a[q[hh]]);
+    }
+    printf("\n");
+    hh=0;tt=-1;
+    for(int i=0;i<n;i++){
+        if(q[hh]<i-k+1)hh++;
+        while(hh<=tt&&a[i]>=a[q[tt]])tt--;
+        q[++tt]=i;
+        if(i+1>=k)printf("%d ",a[q[hh]]);
     }
     return 0;
 }
