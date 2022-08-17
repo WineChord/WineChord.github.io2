@@ -39,6 +39,7 @@ tags: [coding]
   - [Stack](#stack)
     - [Evaluate Equations](#evaluate-equations)
   - [Queue](#queue)
+  - [Monotonic Stack](#monotonic-stack)
 
 ## Basic Algorithms
 
@@ -788,7 +789,7 @@ stack<char> op;
 void eval(){
     int b=num.top();num.pop();
     int a=num.top();num.pop();
-    char c=op.top();op.pop();
+    // char c=op.top();op.pop();
     int x;
     if(c=='+')x=a+b;
     if(c=='-')x=a-b;
@@ -849,4 +850,10 @@ int main(){
     }
     return 0;
 }
+```
+
+### Monotonic Stack
+
+```cpp
+
 ```
