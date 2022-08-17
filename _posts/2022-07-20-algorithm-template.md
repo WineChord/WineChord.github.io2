@@ -37,6 +37,9 @@ tags: [coding]
   - [Singly Linked List](#singly-linked-list)
   - [Doubly Linked List](#doubly-linked-list)
   - [Stack](#stack)
+    - [Evaluate Equations](#evaluate-equations)
+  - [Queue](#queue)
+  - [Monotonic Stack](#monotonic-stack)
 
 ## Basic Algorithms
 
@@ -771,4 +774,88 @@ int main(){
     }
     return 0;
 }
+```
+
+#### Evaluate Equations
+
+```c++
+#include<iostream>
+#include<cstdio>
+#include<stack>
+#include<unordered_map>
+using namespace std;
+stack<int> num;
+stack<char> op;
+void eval(){
+    int b=num.top();num.pop();
+    int a=num.top();num.pop();
+    char c=op.top();op.pop();
+    int x;
+    if(c=='+')x=a+b;
+    if(c=='-')x=a-b;
+    if(c=='*')x=a*b;
+    if(c=='/')x=a/b;
+    num.push(x);
+}
+int main(){
+    unordered_map<char,int> pr{
+        {'+',1},{'-',1},{'*',2},{'/',2}
+    };
+    string s;cin>>s;
+    for(int i=0;i<s.length();i++){
+        char c=s[i];
+        if(isdigit(c)){
+            int x=0,j=i;
+            while(j<s.length()&&isdigit(s[j]))
+                x=x*10+s[j++]-'0';
+            i=j-1;
+            num.push(x);
+        }else if(c=='(')op.push(c);
+        else if(c==')'){
+            while(op.top()!='(')eval();
+            op.pop();
+        }else{
+            while(op.size()&&pr[op.top()]>=pr[c])eval();
+            op.push(c);
+        }
+    }
+    while(op.size())eval();
+    cout<<num.top()<<endl;
+    return 0;
+}
+```
+
+### Queue
+
+```c++
+#include<iostream>
+#include<cstdio>
+#include<string>
+#define MAXN 100010
+using namespace std;
+int q[MAXN],hh=0,tt=-1;
+int main(){
+    int m;scanf("%d",&m);
+    while(m--){
+        string s;cin>>s;
+        if(s=="push"){
+            int x;cin>>x;
+            q[++tt]=x;
+        }else if(s=="pop"){
+            hh++;
+        }else if(s=="empty"){
+            if(hh==tt+1)printf("YES\n");
+            else printf("NO\n");
+        }else if(s=="query"){
+            printf("%d\n",q[hh]);
+        }
+    }
+    return 0;
+}
+```
+
+### Monotonic Stack
+
+```cpp
+
 ```
