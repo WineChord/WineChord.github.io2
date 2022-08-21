@@ -44,6 +44,7 @@ tags: [coding]
   - [KMP](#kmp)
   - [Trie](#trie)
   - [Union-Find](#union-find)
+  - [Heap](#heap)
 
 ## Basic Algorithms
 
@@ -1144,6 +1145,112 @@ int main(){
         }
     }
     printf("%d\n",res);
+    return 0;
+}
+```
+
+### Heap
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using namespace std;
+int a[MAXN];
+void heapify(int i,int n){
+    int l=2*i+1,r=2*i+2;
+    int m=i;
+    if(l<n&&a[l]<a[m])m=l;
+    if(r<n&&a[r]<a[m])m=r;
+    if(m!=i){
+        swap(a[m],a[i]);
+        heapify(m,n);
+    }
+}
+int main(){
+    int n,m;
+    scanf("%d%d",&n,&m);
+    for(int i=0;i<n;i++)scanf("%d",&a[i]);
+    for(int i=n/2;i>=0;i--)heapify(i,n);
+    for(int i=n-1;i>=n-m;i--){
+        printf("%d ",a[0]);
+        swap(a[i],a[0]);
+        heapify(0,i);
+    }
+    return 0;
+}
+```
+
+```cpp
+// Heap with index modification
+#include<iostream>
+#include<cstdio>
+#define MAXN 100100
+// #define WINE
+using namespace std;
+int a[MAXN],n,idx,hp[MAXN],ph[MAXN];
+void hswap(int x,int y){
+    swap(ph[hp[x]],ph[hp[y]]);
+    swap(hp[x],hp[y]);
+    swap(a[x],a[y]);
+}
+void up(int i){
+    while(i&&a[i]<a[(i-1)/2]){
+        hswap(i,(i-1)/2);
+        i=(i-1)/2;
+    }
+}
+void down(int i){
+    int l=2*i+1,r=2*i+2;
+    int m=i;
+    if(l<n&&a[l]<a[m])m=l;
+    if(r<n&&a[r]<a[m])m=r;
+    if(m!=i){
+        hswap(m,i);
+        down(m);
+    }
+}
+void print(){
+#ifdef WINE
+    printf("print: ");
+    for(int i=0;i<n;i++)printf("%d ",a[i]);
+    printf("\n");
+#endif
+}
+int main(){
+    int m;scanf("%d",&m);
+    while(m--){
+        string c;cin>>c;
+        if(c=="I"){
+            int x;cin>>x;
+            hp[n]=++idx; // heap idx => global idx 
+            ph[hp[n]]=n; // global idx => heap idx
+            a[n++]=x;
+            up(n-1);
+            print();
+        }else if(c=="PM"){
+            printf("%d\n",a[0]);
+            print();
+        }else if(c=="DM"){
+            hswap(0,n-1);
+            n--;
+            down(0);
+            print();
+        }else if(c=="D"){
+            int k;cin>>k;
+            int hidx=ph[k];
+            hswap(ph[k],n-1);
+            n--;
+            up(hidx);
+            down(hidx);
+            print();
+        }else if(c=="C"){
+            int k,v;cin>>k>>v;
+            a[ph[k]]=v;
+            up(ph[k]);down(ph[k]);
+            print();
+        }
+    }
     return 0;
 }
 ```
