@@ -42,6 +42,7 @@ tags: [coding]
   - [Monotonic Stack](#monotonic-stack)
   - [Monotonic Queue](#monotonic-queue)
   - [KMP](#kmp)
+  - [Trie](#trie)
 
 ## Basic Algorithms
 
@@ -934,6 +935,46 @@ int main(){
         if(j>=n){
             printf("%d ",i-j);
             j=nxt[j];
+        }
+    }
+    return 0;
+}
+```
+
+### Trie
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#define MAXN 100020
+using namespace std;
+int ch[MAXN][26],cnt[MAXN],idx;
+void insert(string& s){
+    int p=0;
+    for(char cc:s){
+        int c=cc-'a';
+        if(!ch[p][c])ch[p][c]=++idx;
+        p=ch[p][c];
+    }
+    cnt[p]++;
+}
+int query(string& s){
+    int p=0;
+    for(char cc:s){
+        int c=cc-'a';
+        if(!ch[p][c])return 0;
+        p=ch[p][c];
+    }
+    return cnt[p];
+}
+int main(){
+    int n;cin>>n;
+    while(n--){
+        string t,s;cin>>t>>s;
+        if(t=="I"){
+            insert(s);
+        }else{
+            cout<<query(s)<<endl;
         }
     }
     return 0;
