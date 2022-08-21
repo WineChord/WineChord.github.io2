@@ -43,6 +43,7 @@ tags: [coding]
   - [Monotonic Queue](#monotonic-queue)
   - [KMP](#kmp)
   - [Trie](#trie)
+  - [Union-Find](#union-find)
 
 ## Basic Algorithms
 
@@ -1021,6 +1022,128 @@ int main(){
         res=max(res,query(a[i]));
     }
     printf("%d",res);
+    return 0;
+}
+```
+
+### Union-Find
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using namespace std;
+int p[MAXN];
+int find(int x){
+    if(p[x]!=x)return p[x]=find(p[x]);
+    return p[x];
+}
+void uni(int a,int b){
+    p[find(a)]=p[find(b)];
+}
+int main(){
+    int n,m;scanf("%d%d",&n,&m);
+    for(int i=1;i<=n;i++)p[i]=i;
+    while(m--){
+        char c;int a,b;
+        scanf(" %c %d %d ",&c,&a,&b);
+        if(c=='M'){
+            uni(a,b);
+        }else{
+            if(find(a)==find(b))printf("Yes\n");
+            else printf("No\n");
+        }
+    }
+    return 0;
+}
+```
+
+```cpp
+// Union-Find with size.
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010
+using namespace std;
+int p[MAXN],sz[MAXN];
+int find(int x){
+    if(p[x]!=x)return p[x]=find(p[x]);
+    return p[x];
+}
+void uni(int a,int b){
+    if(find(a)==find(b))return;
+    sz[find(b)]+=sz[find(a)];
+    p[find(a)]=p[find(b)];
+}
+int main(){
+    int n,m;scanf("%d%d",&n,&m);
+    for(int i=1;i<=n;i++)sz[i]=1,p[i]=i;
+    while(m--){
+        string c;int a,b;
+        cin>>c;
+        if(c=="C"){
+            cin>>a>>b;
+            uni(a,b);
+        }else if(c=="Q1"){
+            cin>>a>>b;
+            if(find(a)==find(b))printf("Yes\n");
+            else printf("No\n");
+        }else{
+            cin>>a;
+            printf("%d\n",sz[find(a)]);
+        }
+    }
+    return 0;
+}
+```
+
+```cpp
+// Union-Find with path distance.
+#include<iostream>
+#include<cstdio>
+#define MAXN 50050
+using namespace std;
+int p[MAXN],d[MAXN];
+int find(int x){
+    if(p[x]!=x){
+        int t=find(p[x]);
+        d[x]+=d[p[x]];
+        p[x]=t;
+    }
+    return p[x];
+}
+int main(){
+    int n,k;scanf("%d%d",&n,&k);
+    for(int i=1;i<=n;i++)p[i]=i;
+    int res=0;
+    while(k--){
+        int dd,x,y;scanf("%d%d%d",&dd,&x,&y);
+        if(x>n||y>n){
+            res++;
+            continue;
+        }
+        if(dd==1){
+            int px=find(x),py=find(y);
+            if(px==py){
+                if((d[x]-d[y])%3)res++;
+            }else{
+                p[px]=py;
+                d[px]=d[y]-d[x];
+            }
+        }else{
+            if(x==y){
+                res++;
+                continue;
+            }
+            int px=find(x),py=find(y);
+            if(px==py){
+                if((d[x]-d[y]-1)%3!=0)res++;
+            }else{
+                p[py]=px;
+                d[py]=d[x]-d[y]-1;
+            }
+        }
+    }
+    printf("%d\n",res);
     return 0;
 }
 ```
