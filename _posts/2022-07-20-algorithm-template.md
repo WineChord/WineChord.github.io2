@@ -41,6 +41,7 @@ tags: [coding]
   - [Queue](#queue)
   - [Monotonic Stack](#monotonic-stack)
   - [Monotonic Queue](#monotonic-queue)
+  - [KMP](#kmp)
 
 ## Basic Algorithms
 
@@ -901,6 +902,39 @@ int main(){
         while(hh<=tt&&a[i]>=a[q[tt]])tt--;
         q[++tt]=i;
         if(i+1>=k)printf("%d ",a[q[hh]]);
+    }
+    return 0;
+}
+```
+
+### KMP
+
+```cpp
+#include<iostream>
+#include<cstdio>
+#define MAXN 100010 
+using namespace std;
+int nxt[MAXN];
+int main(){
+    string p,s;
+    int n,m;cin>>n>>p>>m>>s;
+    int i,j;
+    j=nxt[0]=-1;
+    i=0;
+    while(i<n){
+        while(j!=-1&&p[i]!=p[j])j=nxt[j];
+        // nxt[++i]=++j;
+        if(p[++i]==p[++j])nxt[i]=nxt[j];
+        else nxt[i]=j;
+    }
+    i=j=0;
+    while(i<m){
+        while(j!=-1&&s[i]!=p[j])j=nxt[j];
+        i++;j++;
+        if(j>=n){
+            printf("%d ",i-j);
+            j=nxt[j];
+        }
     }
     return 0;
 }
