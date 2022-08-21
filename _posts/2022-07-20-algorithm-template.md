@@ -980,3 +980,47 @@ int main(){
     return 0;
 }
 ```
+
+```cpp
+// Max XOR sum.
+#include<iostream>
+#include<cstdio>
+#define MAXN 3100010
+using namespace std;
+int a[MAXN],ch[MAXN][2],idx;
+void insert(int x){
+    int p=0;
+    for(int i=30;i>=0;i--){
+        int c=(x>>i)&1;
+        if(!ch[p][c])ch[p][c]=++idx;
+        p=ch[p][c];
+    }
+}
+int query(int x){
+    int p=0,res=0;
+    for(int i=30;i>=0;i--){
+        int c=(x>>i)&1;
+        if(ch[p][!c]){
+            p=ch[p][!c];
+            res=(res<<1)+1;
+        }else{
+            p=ch[p][c];
+            res=(res<<1)+0;
+        }
+    }
+    return res;
+}
+int main(){
+    int n;scanf("%d",&n);
+    for(int i=0;i<n;i++){
+        scanf("%d",&a[i]);
+        insert(a[i]);
+    }
+    int res=0;
+    for(int i=0;i<n;i++){
+        res=max(res,query(a[i]));
+    }
+    printf("%d",res);
+    return 0;
+}
+```
